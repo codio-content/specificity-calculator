@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS Specificity calculator</title>
+    
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/specificity.css" />
+</head>
+<body>
+    <div class="container-fluid main">
+        <div id="items" class="items">
+            <div class="item is-small transition-all">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <textarea type="text" class="input">ul#nav li.active a</textarea>
+				                <div class="selector"><span class="type-c">ul</span><span class="type-a">#nav</span> <span class="type-c">li</span><span class="type-b">.active</span> <span class="type-c">a</span></div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="specificity">
+                      <div class="col-xs-3">
+                        <span class="type-z">0</span>
+                      </div>
+                      <div class="col-xs-3">
+                        <span class="type-a">1</span>
+                      </div>
+                      <div class="col-xs-3">
+                        <span class="type-b">1</span>
+                      </div>
+                      <div class="col-xs-3">
+                        <span class="type-c">3</span>
+                      </div>
+                    </div>
+                    <div class="legend">
+                      <div class="col-xs-3">
+                        <span class="type-z">Inline styles</span>
+                      </div> 
+                      <div class="col-xs-3">
+                        <span class="type-a">IDs</span>
+                      </div>  
+                      <div class="col-xs-3">
+                        <span class="type-b">Classes, attributes and pseudo-classes</span>
+                      </div>  
+                      <div class="col-xs-3">
+                        <span class="type-c">Elements and pseudo-elements</span>
+                      </div>
+                    </div>
+                </div>
+			      </div>
+        </div>
+    </div>
+
+    
+    
+    <script src="js/lib/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="js/specificity.js" type="text/javascript"></script>
+    <script src="js/main.js"></script>
+    <script type="text/javascript">
+        
+    </script>
+</body>
+</html>

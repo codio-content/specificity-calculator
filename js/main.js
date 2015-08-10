@@ -1,0 +1,99 @@
+$(document).ready(function() {
+
+	var $items = $('#items'),
+		$baseItem = $items.find('.item:eq(0)').clone(),
+		$sort = $('.sort'),
+		$offscreen = $('#offscreen'),
+		update,
+		createItem;
+
+	createItem = function(selector, $prev) {
+		var $item = $baseItem.clone(),
+			$input = $item.find('.input').val(selector),
+			$selector = $item.find('.col-xs-12 .selector'),
+			$specificityZ = $item.find('.specificity > .type-z'),
+			$specificityA = $item.find('.specificity > .type-a'),
+			$specificityB = $item.find('.specificity > .type-b'),
+			$specificityC = $item.find('.specificity > .type-c'),
+			$duplicate = $item.find('> .duplicate'),
+			update;
+
+		update = function(e) {
+			var input = $input.val(),
+				result,
+				specificity,
+				highlightedSelector,
+				i, len, part, text1, text2, text3;
+
+			// Resize the textarea to fit contents
+			/*
+			(function() {
+				var $temp = $('<div class="selector"></div>'),
+					lastChar = input.substr(input.length-1),
+					height;
+
+				if (lastChar === '\n' || lastChar === '\r') {
+					$temp.text(input + ' ');
+				} else {
+					$temp.text(input);
+				}
+				$offscreen.append($temp);
+				height = $temp.height();
+				$temp.remove();
+				$input.height(height + 'px');
+				$selector.height(height + 'px');
+			}());
+      */
+
+			result = SPECIFICITY.calculate(input);
+
+			if (result.length === 0) {
+				$selector.text(' ');
+				$specificityZ.text('0');
+				$specificityA.text('0');
+				$specificityB.text('0');
+				$specificityC.text('0');
+				return;
+			}
+
+			result = result[0];
+			specificity = result.specificity.split(',');
+			$specificityZ.text(specificity[0]);
+			$specificityA.text(specificity[1]);
+			$specificityB.text(specificity[2]);
+			$specificityC.text(specificity[3]);
+
+			highlightedSelector = result.selector;
+			for (i = result.parts.length - 1; i >= 0; i -= 1) {
+				part = result.parts[i];
+				text1 = highlightedSelector.substring(0, part.index);
+				text2 = highlightedSelector.substring(part.index, part.index + part.length);
+				text3 = highlightedSelector.substring(part.index + part.length);
+				highlightedSelector = text1 + '<span class="type-' + part.type + '">' + text2 + '</span>' + text3;
+			}
+			$selector.html(highlightedSelector);
+		};
+
+		$duplicate.click(function(e) {
+			e.preventDefault();
+			createItem($input.val(), $item);
+		});
+
+		$input.keyup(update);
+		update();
+		if ($prev) {
+			$prev.after($item);
+		} else {
+			$items.append($item);
+		}
+		setTimeout(function() {
+			$item.removeClass('is-small');
+		}, 100);
+	};
+
+	$items.empty();
+    
+    
+	createItem('li:first-child h2 .title');
+
+});
