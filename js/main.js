@@ -2,7 +2,6 @@ $(document).ready(function() {
 
 	var $items = $('#items'),
 		$baseItem = $items.find('.item:eq(0)').clone(),
-		$sort = $('.sort'),
 		$offscreen = $('#offscreen'),
 		update,
 		createItem;
@@ -11,11 +10,10 @@ $(document).ready(function() {
 		var $item = $baseItem.clone(),
 			$input = $item.find('.input').val(selector),
 			$selector = $item.find('.col-xs-12 .selector'),
-			$specificityZ = $item.find('.specificity > .type-z'),
-			$specificityA = $item.find('.specificity > .type-a'),
-			$specificityB = $item.find('.specificity > .type-b'),
-			$specificityC = $item.find('.specificity > .type-c'),
-			$duplicate = $item.find('> .duplicate'),
+			$specificityZ = $item.find('.specificity .type-z'),
+			$specificityA = $item.find('.specificity .type-a'),
+			$specificityB = $item.find('.specificity .type-b'),
+			$specificityC = $item.find('.specificity .type-c'),
 			update;
 
 		update = function(e) {
@@ -26,7 +24,7 @@ $(document).ready(function() {
 				i, len, part, text1, text2, text3;
 
 			// Resize the textarea to fit contents
-			/*
+			
 			(function() {
 				var $temp = $('<div class="selector"></div>'),
 					lastChar = input.substr(input.length-1),
@@ -37,13 +35,15 @@ $(document).ready(function() {
 				} else {
 					$temp.text(input);
 				}
+        
+        $temp.width($selector.width()+"px")
 				$offscreen.append($temp);
 				height = $temp.height();
 				$temp.remove();
 				$input.height(height + 'px');
 				$selector.height(height + 'px');
 			}());
-      */
+      
 
 			result = SPECIFICITY.calculate(input);
 
@@ -74,11 +74,6 @@ $(document).ready(function() {
 			$selector.html(highlightedSelector);
 		};
 
-		$duplicate.click(function(e) {
-			e.preventDefault();
-			createItem($input.val(), $item);
-		});
-
 		$input.keyup(update);
 		update();
 		if ($prev) {
@@ -87,6 +82,7 @@ $(document).ready(function() {
 			$items.append($item);
 		}
 		setTimeout(function() {
+      update();
 			$item.removeClass('is-small');
 		}, 100);
 	};
@@ -95,5 +91,10 @@ $(document).ready(function() {
     
     
 	createItem('li:first-child h2 .title');
+  
+  $("a[data-rule]").click(function(){
+    $items.empty();
+    createItem($(this).data("rule"));
+  });
 
 });
