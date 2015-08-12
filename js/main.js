@@ -119,7 +119,7 @@ $(document).ready(function() {
   
   } else {
 
-    createItem('li:first-child h2 .title');
+    createItem('#nav-header li.selected');
   }
     
     
